@@ -32,6 +32,19 @@ app.post('./api/hot-takes', (req, res, next) => {
     .catch(error => res.status(400).json({error}));
 });
 
+app.put('/api/hot-takes/:id', (req, res, next) => {
+    //pour modifier un Thing dans la base de donnees
+    Thing.updateOne({_id: req.params.id}, {...req.body, _id: req.params.id}) 
+    .then(() => res.status(200).json({message: 'objet modifié'}))
+    .catch(error => res.status(400).json({error}));
+});
+
+app.delete('/api/hot-takes/:id', (req, res, next) => {
+    Thing.deleteOne({_id: req.params.id})
+    .then(() => res.status(200).json({message: 'objet supprimé'}))
+    .catch(error => res.status(400).json({error}));
+});
+
 app.get('/api/hot-takes/:id', (req, res, next) => {
     Thing.findOne({_id: req.params.id})
     .then(thing => res.status(200).json(thing))
