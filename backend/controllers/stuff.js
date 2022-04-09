@@ -28,7 +28,7 @@ exports.modifyThing = (req, res, next) => {
 exports.deleteThing = (req, res, next) => {
     Thing.findOne({ _id: req.params.id })
         .then(thing => {
-            const filenamen = thing.imageUrl / split('/images/')[1];
+            const filename = thing.imageUrl / split('/images/')[1];
             fs.unlink(`images/${filename}`, () => {
                 Thing.deleteOne({ _id: req.params.id })
                     .then(() => res.status(200).json({ message: 'objet supprimé' }))
