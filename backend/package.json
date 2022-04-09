@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.3",
-    "mongoose": "^6.2.10"
+    "mongoose": "^6.2.10",
+    "mongoose-unique-validator": "^3.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
