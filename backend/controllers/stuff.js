@@ -1,9 +1,11 @@
 const Thing = require('../models/Thing');
 
 exports.createThing = (req, res, next) => {
-    delete req.body._id;
+    const thingObject = JSON.parse(req.body.thing);
+    delete thingObject._id;
     const thing = new Thing({
-        ...req.body
+        ...thingObject,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     thing.save()
     .then(() => res.status(201).json({message: 'objet trouvé'}))
@@ -12,7 +14,12 @@ exports.createThing = (req, res, next) => {
 
 exports.modifyThing = (req, res, next) => {
     //pour modifier un Thing dans la base de donnees
-    Thing.updateOne({_id: req.params.id}, {...req.body, _id: req.params.id}) 
+    const thingObject = req.file ?
+    {
+        ...JSON.parse(req.body.thing),
+        imageUrl: `${req.protocol}://${req.get('host')}//images/${req.file.filename}`
+    } : {...req.body};
+    Thing.updateOne({_id: req.params.id}, {...thingObject, _id: req.params.id}) 
     .then(() => res.status(200).json({message: 'objet modifié'}))
     .catch(error => res.status(400).json({error}));
 };
