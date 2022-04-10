@@ -6,7 +6,7 @@ const path = require('path');
 const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user');
 
-mongoose.connect(`mongodb://localhost:27017/`,
+mongoose.connect(`mongodb://localhost:27017/node-api`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
