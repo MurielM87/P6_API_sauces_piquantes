@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const path = require('path');
+const cors = require('cors');
 
 const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user');
@@ -35,7 +36,7 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
-
+app.use(cors()); //donne l'accès de l'API a tout le monde
 app.use('.images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/stuff', stuffRoutes);
