@@ -6,8 +6,8 @@ const thingsSchema = mongoose.Schema({
     manufacturer: {type: String, required: true},
     description: {type: String, required: true},
     heat: {type: Number, required: true},
-    likes: {type: Number, required: true},
-    dislikes: {type: Number, required: true},
+    likes: {type: Number, required: true}, //likeSauce
+    dislikes: {type: Number, required: true}, //dislike Sauce
     imageUrl: {type: String, required: true},
     mainPepper: {type: String, required: true},
     usersLiked: {type: String, required: true},

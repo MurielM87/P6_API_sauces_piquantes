@@ -25,6 +25,7 @@ exports.modifyThing = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
+//pour supprimer un objet
 exports.deleteThing = (req, res, next) => {
     Thing.findOne({ _id: req.params.id })
         .then(thing => {
@@ -39,12 +40,14 @@ exports.deleteThing = (req, res, next) => {
 
 };
 
+//pour apporter un objet
 exports.getOneThing = (req, res, next) => {
     Thing.findOne({ _id: req.params.id })
         .then(thing => res.status(200).json(thing))
         .catch(error => res.status(404).json({ error })); //404 objet non trouvé
 };
 
+//pour apporter tous les objets
 exports.getAllThing = (req, res, next) => {
     Thing.find()
         .then(things => res.status(200).json(things))

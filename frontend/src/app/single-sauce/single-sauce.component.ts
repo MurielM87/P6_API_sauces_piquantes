@@ -73,7 +73,7 @@ export class SingleSauceComponent implements OnInit {
           this.likePending = false;
           this.disliked = disliked;
         }),
-        map(disliked => ({ ...sauce, likes: disliked ? sauce.dislikes + 1 : sauce.dislikes - 1 })),
+        map(disliked => ({ ...sauce, dislikes: disliked ? sauce.dislikes + 1 : sauce.dislikes - 1 })),
         tap(sauce => this.sauce$ = of(sauce))
       )),
     ).subscribe();
