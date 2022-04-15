@@ -6,6 +6,7 @@ const cors = require('cors');
 
 const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user');
+const helmet = require('helmet');
 
 mongoose.connect(`mongodb+srv://MurielM87:StigDagerman27@cluster0.xk47l.mongodb.net/api_sauces_piquantes?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
@@ -28,5 +29,7 @@ app.use('./images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/stuff', stuffRoutes);
 app.use('/api/auth', userRoutes);
+
+app.use(helmet());
 
 module.exports = app;
