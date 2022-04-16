@@ -20,14 +20,14 @@ exports.modifySauce = (req, res, next) => {
             ...JSON.parse(req.body.sauce),
             imageUrl: `${req.protocol}://${req.get('host')}//images/${req.file.filename}`
         } : { ...req.body };
-    Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+    sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
         .then(() => res.status(200).json({ message: 'objet modifié' }))
         .catch(error => res.status(400).json({ error }));
 };
 
 //pour supprimer un objet
 exports.deleteSauce = (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id })
+    sauce.findOne({ _id: req.params.id })
         .then(sauce => {
             const filename = sauce.imageUrl / split('/images/')[1];
             fs.unlink(`images/${filename}`, () => {
@@ -42,14 +42,14 @@ exports.deleteSauce = (req, res, next) => {
 
 //pour apporter un objet
 exports.getOneSauce = (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id })
+    sauce.findOne({ _id: req.params.id })
         .then(sauce => res.status(200).json(sauce))
         .catch(error => res.status(404).json({ error })); //404 objet non trouvé
 };
 
 //pour apporter tous les objets
 exports.getAllSauce = (req, res, next) => {
-    Sauce.find()
+    sauce.find()
         .then(sauces => res.status(200).json(sauces))
         .catch(error => res.status(400).json({ error }));
 };
