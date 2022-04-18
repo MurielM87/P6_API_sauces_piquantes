@@ -8,12 +8,12 @@ const multer = require('../middleware/multer-config');
 //publier - creer un nouveau objet
 router.post('/', auth, multer, saucesCtrl.createSauce);
 //modifier l'objet
-//router.put('/:id', auth, multer, saucesCtrl.modifySauce);
+router.put('/:id', auth, multer, saucesCtrl.modifySauce);
 //supprimer l'objet
-//router.delete('/:id', auth, multer, saucesCtrl.deleteSauce);
+router.delete('/:id', auth, multer, saucesCtrl.deleteSauce);
 //obtenir-selectionner un objet
-//router.get('/:id', auth, saucesCtrl.getOneSauce);
+router.get('/:id', auth, saucesCtrl.getOneSauce);
 //obtenir-selectionner tous les objets
-//router.get('/', auth, saucesCtrl.getAllSauces);
+router.get('/', auth, saucesCtrl.getAllSauces);
 
 module.exports = router;
