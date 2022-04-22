@@ -3,7 +3,7 @@ const fs = require('fs');
 const res = require('express/lib/response');
 
 exports.createSauce = (req, res, next) => {
-    console.log("essai", req.body.sauce)
+    console.log("create", req.body.sauce)
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
     const sauce = new Sauce({
@@ -29,6 +29,7 @@ exports.modifySauce = (req, res, next) => {
 
 //pour supprimer un objet
 exports.deleteSauce = (req, res, next) => {
+    //chercher l'objet dans la base de donnees
     Sauce.findOne({ _id: req.params.id })
         .then((sauce) => {
             if (!sauce) {
@@ -41,15 +42,16 @@ exports.deleteSauce = (req, res, next) => {
                     messsage: "accès non-autorisé !"
                 });
             }
-            const filename = sauce.imageUrl / split('/images/')[1];
-            fs.unlink(`images/${filename}`, () => {
-                sauce.deleteOne({ _id: req.params.id })
-                    .then(() => res.status(200).json({ message: 'objet supprimé' }))
-                    .catch(error => res.status(400).json({ error }));
-            })
+            const filename = sauce.imageUrl.split('/images/')[1];
+            
+                fs.unlink(`images/${filename}`, () => {
+                    Sauce.deleteOne({ _id: req.params.id })
+                        .then(() => res.status(200).json({ message: 'objet éffacé de la base de données' }))
+                        .catch((error) => res.status(404).json({ error }));
+                })
+            
         })
-        .catch(error => res.status(500).json({ error }));
-
+    //.catch((error) => res.status(500).json({error}));
 };
 
 //pour apporter un objet
