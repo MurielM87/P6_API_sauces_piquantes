@@ -1,2 +1,3 @@
-nodes_modules
 .env
+nodes_modules
+./images
