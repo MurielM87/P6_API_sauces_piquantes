@@ -2,13 +2,15 @@ const express = require('express');
 //const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const path = require('path');
-//const cors = require('cors');
+const cors = require('cors');
 //const helmet = require('helmet');
+
+const dotenv = require('dotenv').config('../.env')
 
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
-mongoose.connect(`mongodb+srv://MurielM87:StigDagerman27@cluster0.xk47l.mongodb.net/api_sauces_piquantes?retryWrites=true&w=majority`,
+mongoose.connect(`mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER_NAME}.mongodb.net/${process.env.MONGODB_DATABASE_NAME}?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -32,7 +34,7 @@ app.use((req, res, next) => {
 
 //app.use(bodyParser.json());
 
-//app.use(cors()); //donne l'accès de l'API a tout le monde
+app.use(cors()); //donne l'accès de l'API a tout le monde
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/auth', userRoutes);
