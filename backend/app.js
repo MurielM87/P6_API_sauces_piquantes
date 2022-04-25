@@ -1,9 +1,8 @@
 const express = require('express');
-//const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
-//const helmet = require('helmet');
+const helmet = require('helmet');
 
 const dotenv = require('dotenv').config('../.env')
 
@@ -31,8 +30,6 @@ app.use((req, res, next) => {
   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   next();
 });
-
-//app.use(bodyParser.json());
 
 app.use(cors()); //donne l'accès de l'API a tout le monde
 app.use('/images', express.static(path.join(__dirname, 'images')));

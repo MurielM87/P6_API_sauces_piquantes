@@ -47,7 +47,7 @@ exports.deleteSauce = (req, res, next) => {
 //pour apporter un objet
 exports.getOneSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
-        .then(sauces => res.status(200).json(sauces))
+        .then(sauce => res.status(200).json(sauce))
         .catch(error => res.status(404).json({ error })); //404 objet non trouvé
 };
 
@@ -59,14 +59,15 @@ exports.getAllSauces = (req, res, next) => {
 };
 
 //integrer des likes et dislikes
-exports.likesSauce = (req, res, next) => {
+exports.likesDislikesSauce = (req, res, next) => {
+    console.log("choix enregistré")
     Sauce.findOne({ _id: req.params.id })
         .then((sauces) => {
             //mise en place de switch case
             switch (req.body.likes) {
                 case 1:
                     //like = 1
-                    if (!sauces.usersLiked.includes(req.body.userId) && req.body.likes === 1) {
+                    if (!sauces.usersLiked.includes(req.body.userId)) {
                         console.log("succès")
                         //mise à jour de l'objet BDD
                         Sauce.updateOne(
@@ -76,7 +77,7 @@ exports.likesSauce = (req, res, next) => {
                                 $push: { usersLiked: req.body.userId }
                             }
                         )
-                            .then(() => res.status(201).json({ message: "Sauce like +1" }))
+                            .then(() => res.status(201).json({ message: "like sauce +1" }))
                             .catch((error => res.status(400).json({ error })));
                     }
                     break;
@@ -93,12 +94,12 @@ exports.likesSauce = (req, res, next) => {
                                 $pull: { usersLiked: req.body.userId }
                             }
                         )
-                            .then(() => res.status(201).json({ message: "Sauce like 0" }))
+                            .then(() => res.status(201).json({ message: "like sauce 0" }))
                             .catch((error => res.status(400).json({ error })));
 
                     }
                     //dislike = 0 (retirer le dislike)
-                    if (sauces.usersDisliked.includes(req.body.userId) && req.body.dislikes === 0) {
+                    if (sauces.usersDisliked.includes(req.body.userId)) {
                         //mise à jour de l'objet BDD
                         Sauce.updateOne(
                             { _id: req.params.id },
@@ -107,7 +108,7 @@ exports.likesSauce = (req, res, next) => {
                                 $pull: { usersDisliked: req.body.userId }
                             }
                         )
-                            .then(() => res.status(201).json({ message: "Sauce dislike 0" }))
+                            .then(() => res.status(201).json({ message: "dislike sauce 0" }))
                             .catch((error => res.status(400).json({ error })));
                     }
                     break;
@@ -115,7 +116,7 @@ exports.likesSauce = (req, res, next) => {
 
                 case -1:
                     //like : -1 (dislike = 1)
-                    if (!sauces.usersDisliked.includes(req.body.userId) && req.body.dislikes === 1) {
+                    if (!sauces.usersDisliked.includes(req.body.userId)) {
                         //mise à jour de l'objet BDD
                         Sauce.updateOne(
                             { _id: req.params.id },
@@ -124,7 +125,7 @@ exports.likesSauce = (req, res, next) => {
                                 $push: { usersDisliked: req.body.userId }
                             }
                         )
-                            .then(() => res.status(201).json({ message: "Sauce dislike 1" }))
+                            .then(() => res.status(201).json({ message: "dislike sauce 1" }))
                             .catch((error => res.status(400).json({ error })));
                     };
                     break;
