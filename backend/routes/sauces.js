@@ -16,7 +16,7 @@ router.get('/:id', auth, saucesCtrl.getOneSauce);
 //obtenir-selectionner tous les objets
 router.get('/', auth, saucesCtrl.getAllSauces);
 //pour les likes et dislikes
-router.post('/:id/likes', auth, saucesCtrl.likesDislikesSauce);
-//router.post('/:id/dislikes', auth, saucesCtrl.likesDislikesSauce);
+router.post('/:id/like', auth, saucesCtrl.likesDislikesSauce);
+router.post('/:id/dislike', auth, saucesCtrl.likesDislikesSauce);
 
 module.exports = router;

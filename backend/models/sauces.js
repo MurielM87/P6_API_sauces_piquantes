@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-//const uniqueValidator = require('mongoose-unique-validator');
 
 const sauceSchema = mongoose.Schema({
     userId: {type: String, required: true},//identifiant MongoDB de l'utilisateur
@@ -14,6 +13,5 @@ const sauceSchema = mongoose.Schema({
     usersLiked: {type: [String]},// tableau des identifiants des utilisateurs qui aiment
     usersDisliked: {type: [String]},//tableau des identifiants des utilisateurs qui n'aiment pas
 });
-//saucesSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('sauce', sauceSchema);
