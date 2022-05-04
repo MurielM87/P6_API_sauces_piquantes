@@ -18,25 +18,25 @@ schema
 
 //SIGN UP
 exports.signup = (req, res, next) => {
-    
-    if(!emailValidator.validate(req.body.email)){
-       return res.status(500).json({'message' : 'Adresse email non valide'})
-   
-    } else if (!schema.validate(req.body.password)){
-        return res.status(500).json({'message' : 'Mot de passe non valide - Utilisez des majuscules, minuscules, chiffres et symboles, aucun espace, pour 8(min) à 16(max) caractères.'});
-    } else {    
-    bcrypt.hash(req.body.password, 10)
-    .then(hash => {
-        const user = new User({
-            email: req.body.email,
-            password: hash
-        });
-        /* Saving the user in the database */
-        user.save()
-        .then(() => res.status(201).json({message : 'Utilisateur créé'}))
-        .catch(error => res.status(400).json({error}));
-    })
-    .catch(error => res.status(500).json({error}))
+
+    if (!emailValidator.validate(req.body.email)) {
+        return res.status(400).json({ 'message': 'Adresse email non valide' })
+
+    } else if (!schema.validate(req.body.password)) {
+        return res.status(400).json({ 'message': 'Mot de passe non valide - Utilisez des majuscules, minuscules, chiffres et symboles, aucun espace, pour 8(min) à 16(max) caractères.' });
+    } else {
+        bcrypt.hash(req.body.password, 10)
+            .then(hash => {
+                const user = new User({
+                    email: req.body.email,
+                    password: hash
+                });
+                /* Saving the user in the database */
+                user.save()
+                    .then(() => res.status(201).json({ message: 'Utilisateur créé' }))
+                    .catch(error => res.status(400).json({ error }));
+            })
+            .catch(error => res.status(500).json({ error }))
     }
 };
 
