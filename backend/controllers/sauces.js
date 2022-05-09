@@ -15,6 +15,7 @@ exports.createSauce = (req, res, next) => {
 
 exports.modifySauce = (req, res, next) => {
     //pour modifier un objet dans la base de donnees
+   
     const sauceObject = req.file ?
         {
             ...JSON.parse(req.body.sauce),
@@ -22,7 +23,7 @@ exports.modifySauce = (req, res, next) => {
         } : { ...req.body };
     Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
         .then(() => res.status(200).json({ message: 'sauce modifiée' }))
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => res.status(404).json({ error }));
 };
 
 //pour supprimer un objet
