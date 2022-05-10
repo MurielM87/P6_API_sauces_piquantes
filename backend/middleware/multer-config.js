@@ -1,38 +1,34 @@
 const res = require('express/lib/response');
 const multer = require('multer');
 
-//formats des images acceptees
+//images format accepted
 const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
     'image/png': 'png',
 };
 
-//definition du lieu de stockage
+//definition of the storage
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, 'images')
     },
-    //definition du nom du fichier image
+    //definition of the filename image
     filename: (req, file, callback) => {
        
-        //etape 0 pour verifier si l'extension dans les extensions autorisees
-
+        //verify if the extension is allowed in all the authorized extnesions
         if (file.mimetype in MIME_TYPES) {
             const extension = MIME_TYPES[file.mimetype];
 
-            //etape 1 pour retirer l'extension du nom du fichier
+            //remove the extension from the filename
             let name = file.originalname.split('.');
             name = name[0];
 
-            //etape 2 pour sanitariser le nom du fichier
+            //filename + date + extension
             name = name.split(' ').join('_');
-
-            console.log("mimetype ok");
             callback(null, name + Date.now() + '.' + extension);
             
         } else {
-            console.log("mimetype ko")
             callback(false, '');
             return false;
         }

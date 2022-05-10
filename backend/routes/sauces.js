@@ -5,17 +5,17 @@ const saucesCtrl = require('../controllers/sauces');
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
-//publier - creer un nouveau objet
+//publish - create a new object
 router.post('/', auth, multer, saucesCtrl.createSauce);
-//modifier l'objet
+//modify an object
 router.put('/:id', auth, multer, saucesCtrl.modifySauce);
-//supprimer l'objet
+//delete an object
 router.delete('/:id', auth, multer, saucesCtrl.deleteSauce);
-//obtenir-selectionner un objet
+//get-select an object
 router.get('/:id', auth, saucesCtrl.getOneSauce);
-//obtenir-selectionner tous les objets
+//get-select all the objects
 router.get('/', auth, saucesCtrl.getAllSauces);
-//pour les likes et dislikes
+//likes-dislikes
 router.post('/:id/like', auth, saucesCtrl.likesDislikesSauce);
 router.post('/:id/dislike', auth, saucesCtrl.likesDislikesSauce);
 

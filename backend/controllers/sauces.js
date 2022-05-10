@@ -1,6 +1,7 @@
 const Sauce = require('../models/sauces');
 const fs = require('fs');
 
+//create an object
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
@@ -14,7 +15,7 @@ exports.createSauce = (req, res, next) => {
 };
 
 exports.modifySauce = (req, res, next) => {
-    //pour modifier un objet dans la base de donnees
+    //modify an object in the database
    
     const sauceObject = req.file ?
         {
@@ -26,16 +27,16 @@ exports.modifySauce = (req, res, next) => {
         .catch(error => res.status(404).json({ error }));
 };
 
-//pour supprimer un objet
+//delete an object
 exports.deleteSauce = (req, res, next) => {
-    //chercher l'objet dans la base de donnees
+    //find an object in the database
     Sauce.findOne({ _id: req.params.id })
         .then((sauce) => {
             const filename = sauce.imageUrl.split('/images/')[1];
 
             fs.unlink(`images/${filename}`, () => {
                 Sauce.deleteOne({ _id: req.params.id })
-                    .then(() => res.status(200).json({ message: 'objet éffacé de la base de données' }))
+                    .then(() => res.status(200).json({ message: 'objet effacé de la base de données' }))
                     .catch((error) => res.status(404).json({ error }));
             })
 
@@ -43,33 +44,33 @@ exports.deleteSauce = (req, res, next) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-//pour apporter un objet
+//get an object
 exports.getOneSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
         .then((sauce) => res.status(200).json(sauce))
-        .catch(error => res.status(404).json({ error })); //404 objet non trouvé
+        .catch(error => res.status(404).json({ error }));
 };
 
-//pour apporter tous les objets
+//get all the objects
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
         .then((sauces) => res.status(200).json(sauces))
         .catch(error => res.status(400).json({ error }));
 };
 
-//integrer des likes et dislikes
+//integrate likes/dislikes
 exports.likesDislikesSauce = (req, res, next) => {
     
     Sauce.findOne({ _id: req.params.id })
         .then((sauce) => {
            
-            //mise en place de switch case
+            //switch case
             switch (req.body.like) {
                 case 1:
                     //like = 1
                     if (!sauce.usersLiked.includes(req.body.userId)) {
                         
-                        //mise à jour de l'objet BDD
+                        //update object BDD
                         Sauce.updateOne(
                             { _id: req.params.id },
                             {
@@ -85,10 +86,10 @@ exports.likesDislikesSauce = (req, res, next) => {
                     break;
 
                 case 0:
-                    //like = 0 (retirer le like)
+                    //like = 0 (delete the like)
                     if (sauce.usersLiked.includes(req.body.userId)) {
 
-                        //mise à jour de l'objet BDD
+                        //update the object BDD
                         Sauce.updateOne(
                             { _id: req.params.id },
                             {
@@ -100,9 +101,9 @@ exports.likesDislikesSauce = (req, res, next) => {
                             .catch((error => res.status(500).json({ error })));
 
                     }
-                    //dislike = 0 (retirer le dislike)
+                    //dislike = 0 (delete the dislike)
                     if (sauce.usersDisliked.includes(req.body.userId)) {
-                        //mise à jour de l'objet BDD
+                        //update the object BDD
                         Sauce.updateOne(
                             { _id: req.params.id },
                             {
@@ -119,7 +120,7 @@ exports.likesDislikesSauce = (req, res, next) => {
                 case -1:
                     //like : -1 (dislike = 1)
                     if (!sauce.usersDisliked.includes(req.body.userId)) {
-                        //mise à jour de l'objet BDD
+                        //update the object BDD
                         Sauce.updateOne(
                             { _id: req.params.id },
                             {
